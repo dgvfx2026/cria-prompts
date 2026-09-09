@@ -1,1 +1,5 @@
-﻿{"version":2,"rewrites":[{"source":"/prompts","destination":"/prompts.html"}]}
+{
+  "rewrites": [
+    { "source": "/prompts", "destination": "/prompts.html" }
+  ]
+}
