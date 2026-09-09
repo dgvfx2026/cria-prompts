@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRIA — Acesso ao Pack</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#3B82F6;
+  --violet:#7C3AED;
+  --dark:#0A0D14;
+  --dark2:#13161E;
+  --dark3:#1E2435;
+  --text:#F1F5F9;
+  --muted:rgba(255,255,255,0.45);
+  --border:rgba(255,255,255,0.08);
+}
+html,body{
+  min-height:100vh;
+  background:var(--dark);
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+body{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Background glow */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%,rgba(59,130,246,0.12) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 80% 80%,rgba(124,58,237,0.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+
+/* Card */
+.card{
+  width:100%;
+  max-width:440px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:48px 40px;
+  position:relative;
+  backdrop-filter:blur(12px);
+  text-align:center;
+}
+@media(max-width:480px){.card{padding:36px 24px}}
+
+/* Lock icon */
+.lock-icon{
+  width:64px;height:64px;
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(59,130,246,0.15),rgba(124,58,237,0.15));
+  border:1px solid rgba(59,130,246,0.2);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;
+  font-size:28px;
+}
+
+/* Logo */
+.logo{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
+  background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,0.5));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:8px;
+}
+.logo span{
+  background:linear-gradient(135deg,#3B82F6,#7C3AED);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:36px;
+  line-height:1.6;
+}
+
+/* Form */
+.form-group{
+  margin-bottom:16px;
+  text-align:left;
+}
+label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  color:rgba(255,255,255,0.6);
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+input[type="email"]{
+  width:100%;
+  padding:14px 18px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;
+  color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;
+  outline:none;
+  transition:border-color .2s, box-shadow .2s;
+}
+input[type="email"]:focus{
+  border-color:rgba(59,130,246,0.5);
+  box-shadow:0 0 0 3px rgba(59,130,246,0.1);
+}
+input[type="email"]::placeholder{color:rgba(255,255,255,0.25)}
+
+/* Button */
+.btn{
+  width:100%;
+  padding:15px;
+  background:linear-gradient(135deg,#3B82F6,#7C3AED);
+  border:none;
+  border-radius:12px;
+  color:#fff;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  margin-top:8px;
+  transition:opacity .2s, transform .15s;
+  position:relative;
+  overflow:hidden;
+}
+.btn:hover{opacity:.92}
+.btn:active{transform:scale(0.98)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+
+/* Spinner */
+.spinner{
+  display:inline-block;
+  width:16px;height:16px;
+  border:2px solid rgba(255,255,255,0.3);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin .6s linear infinite;
+  margin-right:8px;
+  vertical-align:middle;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Messages */
+.msg{
+  margin-top:16px;
+  padding:12px 16px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+  display:none;
+}
+.msg.error{
+  background:rgba(239,68,68,0.1);
+  border:1px solid rgba(239,68,68,0.2);
+  color:#FCA5A5;
+}
+.msg.success{
+  background:rgba(16,185,129,0.1);
+  border:1px solid rgba(16,185,129,0.2);
+  color:#6EE7B7;
+}
+
+/* Footer */
+.footer-note{
+  margin-top:32px;
+  font-size:12px;
+  color:rgba(255,255,255,0.2);
+  line-height:1.6;
+}
+.footer-note a{
+  color:rgba(59,130,246,0.7);
+  text-decoration:none;
+}
+.footer-note a:hover{color:#3B82F6}
+
+/* Divider */
+.divider{
+  height:1px;
+  background:var(--border);
+  margin:28px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="lock-icon">🔐</div>
+
+  <div class="logo">CR<span>IA</span></div>
+  <p class="subtitle">
+    Digite o email que você usou na compra<br>para acessar os 300 prompts.
+  </p>
+
+  <form id="loginForm" onsubmit="handleSubmit(event)">
+    <div class="form-group">
+      <label for="email">Seu email de compra</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="seu@email.com"
+        required
+        autocomplete="email"
+      >
+    </div>
+
+    <button type="submit" class="btn" id="submitBtn">
+      Verificar acesso
+    </button>
+
+    <div class="msg error" id="errorMsg"></div>
+    <div class="msg success" id="successMsg"></div>
+  </form>
+
+  <div class="divider"></div>
+
+  <p class="footer-note">
+    Ainda não tem o pack?
+    <a href="https://pay.kiwify.com.br/7fTgGYD" target="_blank">Comprar agora →</a><br><br>
+    Problema com o acesso?
+    <a href="https://wa.me/555180328211" target="_blank">Falar com suporte</a>
+  </p>
+</div>
+
+<script>
+// Se já tem token válido, redireciona direto
+(function() {
+  var token = localStorage.getItem('cria_access');
+  if (token) {
+    try {
+      var parts = token.split('.');
+      if (parts.length === 2) {
+        var payload = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
+        if (payload.exp && payload.exp > Date.now()) {
+          window.location.href = '/prompts';
+          return;
+        }
+      }
+    } catch(e) {}
+    localStorage.removeItem('cria_access');
+  }
+})();
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  var email = document.getElementById('email').value.trim();
+  var btn = document.getElementById('submitBtn');
+  var errMsg = document.getElementById('errorMsg');
+  var okMsg = document.getElementById('successMsg');
+
+  // Reset
+  errMsg.style.display = 'none';
+  okMsg.style.display = 'none';
+
+  // Loading state
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Verificando...';
+
+  try {
+    var res = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+
+    var data = await res.json();
+
+    if (res.ok && data.token) {
+      // Sucesso — salva token e redireciona
+      localStorage.setItem('cria_access', data.token);
+      okMsg.textContent = '✅ Acesso confirmado! Redirecionando...';
+      okMsg.style.display = 'block';
+
+      setTimeout(function() {
+        window.location.href = '/prompts';
+      }, 800);
+
+    } else {
+      // Erro do servidor
+      errMsg.textContent = data.error || 'Email não encontrado. Verifique se comprou com este email.';
+      errMsg.style.display = 'block';
+      btn.disabled = false;
+      btn.innerHTML = 'Verificar acesso';
+    }
+
+  } catch (err) {
+    errMsg.textContent = 'Erro de conexão. Tente novamente.';
+    errMsg.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = 'Verificar acesso';
+  }
+}
+</script>
+</body>
+</html>
