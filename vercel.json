@@ -1,15 +1,1 @@
-{
-  "version": 2,
-  "rewrites": [
-    { "source": "/prompts", "destination": "/prompts.html" }
-  ],
-  "headers": [
-    {
-      "source": "/prompts.html",
-      "headers": [
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "no-store, no-cache" }
-      ]
-    }
-  ]
-}
+﻿{"version":2,"rewrites":[{"source":"/prompts","destination":"/prompts.html"}]}
