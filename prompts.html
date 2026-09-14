@@ -594,13 +594,14 @@ body{
 #sidebar-toggle{
   position:fixed;top:12px;left:12px;z-index:300;
   width:36px;height:36px;border-radius:8px;
-  background:rgba(7,9,15,0.92);
-  border:1px solid var(--border-1);
-  color:var(--text-2);font-size:14px;cursor:pointer;
+  background:rgba(12,15,24,0.96);
+  border:1px solid rgba(255,255,255,0.18);
+  color:rgba(232,236,244,0.75);font-size:15px;cursor:pointer;
   display:none;align-items:center;justify-content:center;
-  transition:all .14s;backdrop-filter:blur(8px);
+  transition:all .14s;backdrop-filter:blur(10px);
+  box-shadow:0 2px 12px rgba(0,0,0,0.5);
 }
-#sidebar-toggle:hover{background:var(--surface-2);color:var(--text-1)}
+#sidebar-toggle:hover{background:var(--surface-2);color:var(--text-1);border-color:rgba(255,255,255,0.28)}
 #sidebar-collapse-btn{
   background:none;border:none;color:var(--text-3);font-size:14px;
   cursor:pointer;padding:4px 5px;border-radius:5px;
@@ -3043,13 +3044,15 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   function openSidebar(){
     sidebar.classList.add('open');
     overlay.classList.add('visible');
-    toggleBtn.innerHTML = '✕';
+    toggleBtn.style.opacity = '0';
+    toggleBtn.style.pointerEvents = 'none';
     isOpen = true;
   }
   function closeSidebar(){
     sidebar.classList.remove('open');
     overlay.classList.remove('visible');
-    toggleBtn.innerHTML = '☰';
+    toggleBtn.style.opacity = '';
+    toggleBtn.style.pointerEvents = '';
     isOpen = false;
   }
 
