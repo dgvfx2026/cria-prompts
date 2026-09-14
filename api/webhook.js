@@ -7,15 +7,21 @@ module.exports = async (req, res) => {
   try {
     const body = req.body;
 
-    // Kiwify pode enviar o email em formatos diferentes
+    // Log completo para facilitar debug (visível no Vercel Functions logs)
+    console.log('Webhook recebido:', JSON.stringify(body));
+
+    // Kiwify envia "Customer" com C maiúsculo no payload de compra aprovada
+    // Referência: https://kiwify.com.br/documentacao-webhook
     const email =
-      body?.customer?.email ||
-      body?.data?.customer?.email ||
+      body?.Customer?.email ||       // ✅ formato real da Kiwify
+      body?.customer?.email ||       // fallback minúsculo
+      body?.data?.Customer?.email || // formato aninhado maiúsculo
+      body?.data?.customer?.email || // formato aninhado minúsculo
       body?.buyer?.email ||
       body?.email;
 
     if (!email) {
-      console.log('Webhook sem email. Payload:', JSON.stringify(body));
+      console.log('Webhook sem email. Payload completo:', JSON.stringify(body));
       return res.status(400).json({ error: 'Email nao encontrado no payload' });
     }
 
