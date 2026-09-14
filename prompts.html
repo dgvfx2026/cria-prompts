@@ -61,13 +61,23 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
 .step-sub{font-size:11px;color:#5A6478;line-height:1.4}
 
 /* ── SEARCH ── */
-.search-wrap{position:sticky;top:0;z-index:99;padding:12px 0;background:#0A0D14!important;margin-bottom:8px}
+.search-wrap{position:sticky;top:0;z-index:99;padding:12px 0 0;background:#0A0D14!important;margin-bottom:0}
 .search-box{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px 18px;transition:border-color .2s}
 .search-box:focus-within{border-color:rgba(59,130,246,0.5)}
 .search-icon{font-size:16px;opacity:.5;flex-shrink:0}
 .search-inp{flex:1;background:none;border:none;outline:none;color:#fff;font-size:15px;font-family:inherit;min-width:0}
 .search-inp::placeholder{color:rgba(255,255,255,0.3)}
 .search-count{font-size:12px;color:rgba(255,255,255,0.3);flex-shrink:0;white-space:nowrap}
+
+/* ── CATEGORY FILTER BAR ── */
+.cat-bar{position:sticky;top:56px;z-index:98;background:#0A0D14;padding:10px 0 12px;margin-bottom:12px}
+.cat-bar-inner{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.cat-bar-inner::-webkit-scrollbar{display:none}
+.cat-chip{flex-shrink:0;padding:5px 14px;border-radius:20px;font-size:11.5px;font-weight:700;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.45);cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit}
+.cat-chip:hover{border-color:rgba(59,130,246,0.4);color:rgba(255,255,255,0.8);background:rgba(59,130,246,0.08)}
+.cat-chip.active{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.4);color:#93C5FD}
+.cat-chip.all-chip{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.6)}
+.cat-chip.all-chip.active{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.3);color:#fff}
 
 /* ── CATEGORY HEADER ── */
 .cat-section{margin-bottom:8px}
@@ -206,6 +216,44 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
     <span class="search-icon">🔍</span>
     <input class="search-inp" type="search" id="q" placeholder="Buscar em 300 prompts..." autocomplete="off">
     <span class="search-count" id="cnt">300 prompts</span>
+  </div>
+</div>
+
+<!-- CATEGORY FILTER BAR -->
+<div class="cat-bar">
+  <div class="cat-bar-inner" id="cat-bar-inner">
+    <button class="cat-chip all-chip active" data-cat="all" onclick="filterCat('all',this)">✦ Todas</button>
+    <button class="cat-chip" data-cat="cat-1"  onclick="filterCat('cat-1',this)">📦 Packshots</button>
+    <button class="cat-chip" data-cat="cat-2"  onclick="filterCat('cat-2',this)">✨ Efeitos de Produto</button>
+    <button class="cat-chip" data-cat="cat-3"  onclick="filterCat('cat-3',this)">👤 Retratos & Pessoas</button>
+    <button class="cat-chip" data-cat="cat-4"  onclick="filterCat('cat-4',this)">📱 Posts Redes Sociais</button>
+    <button class="cat-chip" data-cat="cat-5"  onclick="filterCat('cat-5',this)">👗 Moda & Fashion</button>
+    <button class="cat-chip" data-cat="cat-6"  onclick="filterCat('cat-6',this)">🍽️ Gastronomia</button>
+    <button class="cat-chip" data-cat="cat-7"  onclick="filterCat('cat-7',this)">💎 Luxo & Joias</button>
+    <button class="cat-chip" data-cat="cat-8"  onclick="filterCat('cat-8',this)">🏛️ Arquitetura</button>
+    <button class="cat-chip" data-cat="cat-9"  onclick="filterCat('cat-9',this)">🔬 Macro & Texturas</button>
+    <button class="cat-chip" data-cat="cat-10" onclick="filterCat('cat-10',this)">🌿 Natureza Outdoor</button>
+    <button class="cat-chip" data-cat="cat-11" onclick="filterCat('cat-11',this)">🔮 Neon & Cyberpunk</button>
+    <button class="cat-chip" data-cat="cat-12" onclick="filterCat('cat-12',this)">◻️ Minimalismo</button>
+    <button class="cat-chip" data-cat="cat-13" onclick="filterCat('cat-13',this)">📲 Posts Avançados</button>
+    <button class="cat-chip" data-cat="cat-14" onclick="filterCat('cat-14',this)">🏙️ FOOH</button>
+    <button class="cat-chip" data-cat="cat-15" onclick="filterCat('cat-15',this)">📱 UGC</button>
+    <button class="cat-chip" data-cat="cat-16" onclick="filterCat('cat-16',this)">🎬 Cinematic Produto</button>
+    <button class="cat-chip" data-cat="cat-17" onclick="filterCat('cat-17',this)">📦 Packshot Vídeo</button>
+    <button class="cat-chip" data-cat="cat-18" onclick="filterCat('cat-18',this)">🌀 VFX & Transformação</button>
+    <button class="cat-chip" data-cat="cat-19" onclick="filterCat('cat-19',this)">🎭 Cinematic Pessoa</button>
+    <button class="cat-chip" data-cat="cat-20" onclick="filterCat('cat-20',this)">📖 Brand Storytelling</button>
+    <button class="cat-chip" data-cat="cat-21" onclick="filterCat('cat-21',this)">🌌 Animação & Fantasia</button>
+    <button class="cat-chip" data-cat="cat-22" onclick="filterCat('cat-22',this)">🛸 Sci-Fi & Atmosférico</button>
+    <button class="cat-chip" data-cat="cat-23" onclick="filterCat('cat-23',this)">☀️ Lifestyle & Rotina</button>
+    <button class="cat-chip" data-cat="cat-24" onclick="filterCat('cat-24',this)">🚁 Drone & Aerial</button>
+    <button class="cat-chip" data-cat="cat-25" onclick="filterCat('cat-25',this)">💥 Épico & Grande Escala</button>
+    <button class="cat-chip" data-cat="cat-26" onclick="filterCat('cat-26',this)">🏆 Esporte & Ação</button>
+    <button class="cat-chip" data-cat="cat-27" onclick="filterCat('cat-27',this)">💕 Romance & Emocional</button>
+    <button class="cat-chip" data-cat="cat-28" onclick="filterCat('cat-28',this)">👻 Horror & Suspense</button>
+    <button class="cat-chip" data-cat="cat-29" onclick="filterCat('cat-29',this)">🎞️ Micro-Cinema</button>
+    <button class="cat-chip" data-cat="cat-30" onclick="filterCat('cat-30',this)">📚 Tutorial & How-To</button>
+    <button class="cat-chip" data-cat="cat-31" onclick="filterCat('cat-31',this)">🦁 Natureza & Wildlife</button>
   </div>
 </div>
 
@@ -2278,22 +2326,60 @@ document.querySelectorAll(".ph").forEach(function(ph){
 // Search
 var total=document.querySelectorAll(".pc").length;
 document.getElementById("cnt").textContent=total+" prompts";
-document.getElementById("q").addEventListener("input",function(){
-  var t=this.value.trim().toLowerCase(),vis=0;
-  document.querySelectorAll(".cat-section").forEach(function(s){s.style.display="";});
-  document.querySelectorAll(".pc").forEach(function(c){
-    var ok=!t||c.textContent.toLowerCase().includes(t);
-    c.classList.toggle("hidden",!ok);
-    if(ok)vis++;
+// (search listener replaced by triggerSearch below)
+
+// ── CATEGORY FILTER ──
+var activeCat = 'all';
+function filterCat(cat, btn) {
+  activeCat = cat;
+  // update chips
+  document.querySelectorAll('.cat-chip').forEach(function(c){ c.classList.remove('active'); });
+  btn.classList.add('active');
+  // scroll chip into view
+  btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  // show/hide sections
+  document.querySelectorAll('.cat-section').forEach(function(s){
+    s.style.display = (cat === 'all' || s.id === cat) ? '' : 'none';
   });
-  if(t){
-    document.querySelectorAll(".cat-section").forEach(function(s){
-      s.style.display=[].some.call(s.querySelectorAll(".pc"),function(c){return!c.classList.contains("hidden")})?"":"none";
+  // clear search when switching category
+  var q = document.getElementById('q');
+  if(q.value) { q.value = ''; triggerSearch(); }
+  // update count
+  updateCount();
+  // scroll to top of content
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function updateCount() {
+  var vis = 0;
+  document.querySelectorAll('.pc').forEach(function(c){
+    if(!c.classList.contains('hidden') && c.closest('.cat-section') && c.closest('.cat-section').style.display !== 'none') vis++;
+  });
+  document.getElementById('cnt').textContent = vis + ' prompts';
+}
+
+function triggerSearch() {
+  var t = document.getElementById('q').value.trim().toLowerCase(), vis = 0;
+  document.querySelectorAll('.cat-section').forEach(function(s){
+    s.style.display = (activeCat === 'all' || s.id === activeCat) ? '' : 'none';
+  });
+  document.querySelectorAll('.pc').forEach(function(c){
+    var inCat = activeCat === 'all' || (c.closest('.cat-section') && c.closest('.cat-section').id === activeCat);
+    var ok = !t || c.textContent.toLowerCase().includes(t);
+    c.classList.toggle('hidden', !(inCat && ok));
+    if(inCat && ok) vis++;
+  });
+  if(t) {
+    document.querySelectorAll('.cat-section').forEach(function(s){
+      var hasVisible = [].some.call(s.querySelectorAll('.pc'), function(c){ return !c.classList.contains('hidden'); });
+      s.style.display = hasVisible ? '' : 'none';
     });
   }
-  document.getElementById("cnt").textContent=vis+" prompts";
-  document.getElementById("empty").classList.toggle("show",vis===0&&!!t);
-});
+  document.getElementById('cnt').textContent = vis + ' prompts';
+  document.getElementById('empty').classList.toggle('show', vis === 0 && !!t);
+}
+
+document.getElementById('q').addEventListener('input', triggerSearch);
 
 // Copy
 function cp(btn){
