@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <script>
@@ -82,17 +82,28 @@ body{
 /* ── PAGE ── */
 .page{width:100%;max-width:820px;padding:0 28px 100px;background:var(--bg);color:var(--text-1)}
 
-/* ── HEADER ── */
-.header{padding:52px 0 40px;text-align:center}
+/* ── HEADER — compacto ── */
+.header{padding:32px 0 24px;text-align:center}
 .logo{
-  font-size:44px;font-weight:900;letter-spacing:-2px;line-height:1;
+  font-size:36px;font-weight:900;letter-spacing:-2px;line-height:1;
   background:linear-gradient(135deg,#60a5fa 0%,#a78bfa 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .logo-sub{
-  font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:var(--text-3);margin-top:10px;
+  font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--text-3);margin-top:8px;
 }
+.logo-stats{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  margin-top:10px;flex-wrap:wrap;
+}
+.logo-stat{
+  font-size:10px;font-weight:700;
+  color:var(--text-3);letter-spacing:.3px;
+  font-family:"JetBrains Mono",monospace;
+}
+.logo-stat strong{color:var(--text-2)}
+.logo-dot{font-size:10px;color:var(--text-3);opacity:.4}
 
 /* ── TUTORIAL ── */
 .tut{
@@ -258,7 +269,7 @@ body{
 
 /* Card body — prompt text */
 .pb{
-  padding:14px 16px 16px;
+  padding:14px 16px 0;
   font-size:12px;
   color:var(--text-2);
   line-height:1.9;
@@ -266,7 +277,28 @@ body{
   white-space:pre-wrap;
   word-break:break-word;
   overflow-wrap:break-word;
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
+.pb.expanded{
+  -webkit-line-clamp:unset;
+  overflow:visible;
+}
+
+/* Expand / collapse toggle */
+.pb-foot{
+  padding:8px 16px 14px;
+  display:flex;align-items:center;gap:6px;
+}
+.pb-toggle{
+  background:none;border:none;cursor:pointer;
+  font-size:10.5px;font-weight:700;
+  color:var(--text-3);font-family:"Plus Jakarta Sans",sans-serif;
+  padding:0;transition:color .13s;letter-spacing:.2px;
+}
+.pb-toggle:hover{color:var(--text-1)}
 
 /* ── CUSTOM FIELDS ── */
 .cf{
@@ -484,6 +516,34 @@ body{
 .snav-item.active{color:#93c5fd;background:rgba(59,130,246,0.06);border-left-color:var(--blue)}
 .snav-icon{font-size:12px;flex-shrink:0;width:16px;text-align:center;opacity:.75}
 .snav-count{margin-left:auto;font-size:9px;color:var(--text-3);font-weight:700;flex-shrink:0;font-family:"JetBrains Mono",monospace}
+.snav-item.dimmed{opacity:.3;pointer-events:none}
+
+/* Search active indicator in sidebar */
+#sidebar-search-indicator{
+  display:none;
+  margin:8px 10px 4px;
+  background:rgba(59,130,246,0.08);
+  border:1px solid rgba(59,130,246,0.18);
+  border-radius:8px;
+  padding:7px 10px;
+  font-size:10.5px;color:#93c5fd;
+  align-items:center;gap:6px;
+}
+#sidebar-search-indicator.visible{display:flex}
+#sidebar-search-indicator span{flex:1;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#sidebar-search-clear{
+  background:none;border:none;cursor:pointer;
+  color:rgba(147,197,253,0.5);font-size:13px;padding:0;line-height:1;flex-shrink:0;
+  transition:color .12s;
+}
+#sidebar-search-clear:hover{color:#93c5fd}
+
+/* Copy button error state */
+.cp.err{
+  background:rgba(251,191,36,0.08);
+  border-color:rgba(251,191,36,0.25);
+  color:#fcd34d;
+}
 
 /* Toggle / collapse buttons */
 #sidebar-toggle{
@@ -595,6 +655,12 @@ body{
   </div>
   <div id="sidebar-nav">
 
+    <!-- Indicador de busca ativa -->
+    <div id="sidebar-search-indicator">
+      <span id="sidebar-search-text">Buscando...</span>
+      <button id="sidebar-search-clear" title="Limpar busca">✕</button>
+    </div>
+
     <div class="snav-section-label">🖼️ Imagem</div>
     <div class="snav-item" data-cat="cat-1"><span class="snav-icon">📦</span>Packshots & Produto<span class="snav-count">15</span></div>
     <div class="snav-item" data-cat="cat-2"><span class="snav-icon">✨</span>Efeitos de Produto<span class="snav-count">9</span></div>
@@ -638,7 +704,14 @@ body{
 <!-- HEADER -->
 <div class="header">
   <div class="logo">CRIA</div>
-  <div class="logo-sub">300 Prompts de IA &nbsp;·&nbsp; @dg_vfx</div>
+  <div class="logo-sub">Pack de Prompts de IA · @dg_vfx</div>
+  <div class="logo-stats">
+    <span class="logo-stat"><strong>300</strong> prompts</span>
+    <span class="logo-dot">·</span>
+    <span class="logo-stat"><strong>150</strong> imagem</span>
+    <span class="logo-dot">·</span>
+    <span class="logo-stat"><strong>150</strong> vídeo</span>
+  </div>
 </div>
 
 <!-- TUTORIAL -->
@@ -2768,42 +2841,57 @@ cena e câmera. Máximo de 150 palavras.</div>
 </div></div>
 </div><!-- /cria-root -->
 <script>
-// Add copy buttons to .ph without one (cards with .cf block)
-document.querySelectorAll(".ph").forEach(function(ph){
-  if(!ph.querySelector(".cp,.copy-btn")){
-    var b=document.createElement("button");b.className="cp";b.textContent="📋 Copiar";
-    b.onclick=function(){cp(this);};ph.appendChild(b);
+// ── EXPAND/COLLAPSE prompt cards ──
+// Add footer toggle to every .pc
+document.querySelectorAll('.pc').forEach(function(card){
+  var pb = card.querySelector('.pb');
+  if(!pb) return;
+  // create footer
+  var foot = document.createElement('div');
+  foot.className = 'pb-foot';
+  var btn = document.createElement('button');
+  btn.className = 'pb-toggle';
+  btn.textContent = '↓ Ver completo';
+  btn.addEventListener('click', function(){
+    var expanded = pb.classList.toggle('expanded');
+    btn.textContent = expanded ? '↑ Recolher' : '↓ Ver completo';
+  });
+  foot.appendChild(btn);
+  card.insertBefore(foot, pb.nextSibling);
+});
+
+// ── COPY BUTTONS — add to .ph without one ──
+document.querySelectorAll('.ph').forEach(function(ph){
+  if(!ph.querySelector('.cp,.copy-btn')){
+    var b = document.createElement('button');
+    b.className = 'cp';
+    b.textContent = '📋 Copiar';
+    b.onclick = function(){ cp(this); };
+    ph.appendChild(b);
   }
 });
 
-// Search
-var total=document.querySelectorAll(".pc").length;
-document.getElementById("cnt").textContent=total+" prompts";
-// (search listener replaced by triggerSearch below)
+// ── SEARCH ──
+var total = document.querySelectorAll('.pc').length;
+document.getElementById('cnt').textContent = total + ' prompts';
 
 // ── CATEGORY FILTER ──
 var activeCat = 'all';
-function filterCat(cat, btn) {
+function filterCat(cat, btn){
   activeCat = cat;
-  // update chips
   document.querySelectorAll('.cat-chip').forEach(function(c){ c.classList.remove('active'); });
   btn.classList.add('active');
-  // scroll chip into view
-  btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-  // show/hide sections
+  btn.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
   document.querySelectorAll('.cat-section').forEach(function(s){
     s.style.display = (cat === 'all' || s.id === cat) ? '' : 'none';
   });
-  // clear search when switching category
   var q = document.getElementById('q');
-  if(q.value) { q.value = ''; triggerSearch(); }
-  // update count
+  if(q.value){ q.value = ''; triggerSearch(); }
   updateCount();
-  // scroll to top of content
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-function updateCount() {
+function updateCount(){
   var vis = 0;
   document.querySelectorAll('.pc').forEach(function(c){
     if(!c.classList.contains('hidden') && c.closest('.cat-section') && c.closest('.cat-section').style.display !== 'none') vis++;
@@ -2811,31 +2899,102 @@ function updateCount() {
   document.getElementById('cnt').textContent = vis + ' prompts';
 }
 
-function triggerSearch() {
-  var t = document.getElementById('q').value.trim().toLowerCase(), vis = 0;
+// ── UPDATE sidebar counts dynamically ──
+function updateSidebarCounts(query){
+  document.querySelectorAll('.snav-item[data-cat]').forEach(function(item){
+    var cat = item.getAttribute('data-cat');
+    var section = document.getElementById(cat);
+    var countEl = item.querySelector('.snav-count');
+    if(!section || !countEl) return;
+    if(!query){
+      // restore original count
+      var allCards = section.querySelectorAll('.pc');
+      countEl.textContent = allCards.length;
+      item.classList.remove('dimmed');
+    } else {
+      var visible = section.querySelectorAll('.pc:not(.hidden)').length;
+      countEl.textContent = visible;
+      item.classList.toggle('dimmed', visible === 0);
+    }
+  });
+}
+
+// ── SEARCH INDICATOR in sidebar ──
+var searchIndicator = document.getElementById('sidebar-search-indicator');
+var searchText = document.getElementById('sidebar-search-text');
+var searchClear = document.getElementById('sidebar-search-clear');
+
+function showSearchIndicator(query){
+  if(query && searchIndicator){
+    searchText.textContent = '🔍 "' + query + '"';
+    searchIndicator.classList.add('visible');
+  } else if(searchIndicator){
+    searchIndicator.classList.remove('visible');
+  }
+}
+
+if(searchClear){
+  searchClear.addEventListener('click', function(){
+    var qEl = document.getElementById('q');
+    qEl.value = '';
+    triggerSearch();
+    qEl.focus();
+  });
+}
+
+// ── TRIGGER SEARCH ──
+function triggerSearch(){
+  var t = document.getElementById('q').value.trim().toLowerCase();
+  var vis = 0;
+
+  // show/hide sections by active cat first
   document.querySelectorAll('.cat-section').forEach(function(s){
     s.style.display = (activeCat === 'all' || s.id === activeCat) ? '' : 'none';
   });
+
+  // filter cards
   document.querySelectorAll('.pc').forEach(function(c){
     var inCat = activeCat === 'all' || (c.closest('.cat-section') && c.closest('.cat-section').id === activeCat);
     var ok = !t || c.textContent.toLowerCase().includes(t);
     c.classList.toggle('hidden', !(inCat && ok));
     if(inCat && ok) vis++;
   });
-  if(t) {
-    // hide cat-sections with no visible prompts
+
+  if(t){
+    // hide sections with no visible prompts
     document.querySelectorAll('.cat-section').forEach(function(s){
       var hasVisible = [].some.call(s.querySelectorAll('.pc'), function(c){ return !c.classList.contains('hidden'); });
       s.style.display = hasVisible ? '' : 'none';
     });
-    // hide .psep (part dividers) when searching
+    // hide psep dividers while searching
     document.querySelectorAll('.psep').forEach(function(p){ p.style.display = 'none'; });
   } else {
-    // restore .psep when search is cleared
+    // restore psep
     document.querySelectorAll('.psep').forEach(function(p){ p.style.display = ''; });
   }
+
+  // update counter
   document.getElementById('cnt').textContent = vis + ' prompts';
-  document.getElementById('empty').classList.toggle('show', vis === 0 && !!t);
+
+  // update sidebar counts + dim
+  updateSidebarCounts(t);
+
+  // show/update search indicator in sidebar
+  showSearchIndicator(t);
+
+  // empty state — contextual message
+  var emptyEl = document.getElementById('empty');
+  if(vis === 0 && t){
+    var catLabel = '';
+    if(activeCat !== 'all'){
+      var navItem = document.querySelector('.snav-item[data-cat="' + activeCat + '"]');
+      if(navItem) catLabel = ' em "' + navItem.textContent.replace(/\d+/g,'').trim() + '"';
+    }
+    emptyEl.innerHTML = '<span class="empty-ico">🔍</span>Nenhum prompt encontrado' + catLabel + '.<br><span style="font-size:11px;opacity:.6">Tente palavras diferentes ou limpe a busca.</span>';
+    emptyEl.classList.add('show');
+  } else {
+    emptyEl.classList.remove('show');
+  }
 }
 
 document.getElementById('q').addEventListener('input', triggerSearch);
@@ -2852,7 +3011,6 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   var isOpen = false;
   var isCollapsed = false;
 
-  // ── Mobile: open/close drawer ──
   function openSidebar(){
     sidebar.classList.add('open');
     overlay.classList.add('visible');
@@ -2870,7 +3028,6 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   closeBtn.addEventListener('click', closeSidebar);
   overlay.addEventListener('click', closeSidebar);
 
-  // ── Desktop: collapse/expand sidebar ──
   function collapseSidebar(){
     isCollapsed = true;
     sidebar.classList.add('collapsed');
@@ -2891,28 +3048,24 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   if(collapseBtn) collapseBtn.addEventListener('click', function(){ isCollapsed ? expandSidebar() : collapseSidebar(); });
   if(reopenBtn) reopenBtn.addEventListener('click', expandSidebar);
 
-  // Sidebar item click — scroll to section + close on mobile
+  // Sidebar item click
   document.querySelectorAll('.snav-item').forEach(function(item){
     item.addEventListener('click', function(){
       var cat = this.getAttribute('data-cat');
-      // highlight active in sidebar
       document.querySelectorAll('.snav-item').forEach(function(i){ i.classList.remove('active'); });
       this.classList.add('active');
-      // scroll sidebar item into view
       this.scrollIntoView({ behavior:'smooth', block:'nearest' });
-      // scroll page to section
       var section = document.getElementById(cat);
       if(section){
         var offset = window.innerWidth <= 800 ? 120 : 20;
         var top = section.getBoundingClientRect().top + window.pageYOffset - offset;
-        window.scrollTo({ top: top, behavior: 'smooth' });
+        window.scrollTo({ top:top, behavior:'smooth' });
       }
-      // close on mobile
       if(window.innerWidth <= 800) setTimeout(closeSidebar, 180);
     });
   });
 
-  // IntersectionObserver — marca item ativo conforme scroll
+  // IntersectionObserver — active item on scroll
   var sections = document.querySelectorAll('.cat-section');
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
@@ -2922,7 +3075,6 @@ document.getElementById('q').addEventListener('input', triggerSearch);
           var active = document.querySelector('.snav-item[data-cat="'+e.target.id+'"]');
           if(active){
             active.classList.add('active');
-            // scroll sidebar to keep active visible
             active.scrollIntoView({ behavior:'smooth', block:'nearest' });
           }
         }
@@ -2932,33 +3084,68 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   }
 })();
 
-// Copy
+// ── COPY prompt ──
 function cp(btn){
-  var card=btn.closest?btn.closest(".pc"):null;
-  if(!card){var p=btn;while(p&&!p.classList.contains("pc"))p=p.parentNode;card=p;}
-  if(!card)return;
-  var pb=card.querySelector(".pb");
-  if(!pb)return;
-  var txt=pb.textContent.trim();
-  function done(){btn.textContent="✅ Copiado!";btn.classList.add("ok");setTimeout(function(){btn.textContent="📋 Copiar";btn.classList.remove("ok");},2000);}
-  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(done).catch(function(){fallback(txt);done();});}
-  else{fallback(txt);done();}
-  function fallback(t){var ta=document.createElement("textarea");ta.value=t;ta.style.cssText="position:fixed;opacity:0;top:0;left:0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
+  var card = btn.closest ? btn.closest('.pc') : null;
+  if(!card){ var p = btn; while(p && !p.classList.contains('pc')) p = p.parentNode; card = p; }
+  if(!card) return;
+  var pb = card.querySelector('.pb');
+  if(!pb) return;
+  var txt = pb.textContent.trim();
+
+  function done(){
+    btn.textContent = '✅ Copiado!';
+    btn.classList.add('ok');
+    setTimeout(function(){ btn.textContent = '📋 Copiar'; btn.classList.remove('ok'); }, 2000);
+  }
+  function fail(){
+    // fallback: select text manually
+    var range = document.createRange();
+    range.selectNodeContents(pb);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    btn.textContent = '⚠ Selecione e copie';
+    btn.classList.add('err');
+    setTimeout(function(){ btn.textContent = '📋 Copiar'; btn.classList.remove('err'); sel.removeAllRanges(); }, 3000);
+  }
+  function fallbackExecCopy(t){
+    var ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(txt).then(done).catch(function(){
+      var ok = fallbackExecCopy(txt);
+      ok ? done() : fail();
+    });
+  } else {
+    var ok = fallbackExecCopy(txt);
+    ok ? done() : fail();
+  }
 }
 
-// Copy guide command (gets .gc-cmd text)
+// ── COPY guide command ──
 function cpGuide(btn){
-  var cmd=btn.closest?btn.closest(".gc"):null;
-  if(!cmd){var p=btn;while(p&&!p.classList.contains("gc"))p=p.parentNode;cmd=p;}
-  if(!cmd)return;
-  var el=cmd.querySelector(".gc-cmd");
-  if(!el)return;
-  var txt=el.textContent.trim();
-  function done(){btn.textContent="✅ Copiado!";btn.classList.add("ok");setTimeout(function(){btn.textContent="📋 Copiar";btn.classList.remove("ok");},2000);}
-  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(done).catch(function(){fb2(txt);done();});}
-  else{fb2(txt);done();}
-  function fb2(t){var ta=document.createElement("textarea");ta.value=t;ta.style.cssText="position:fixed;opacity:0;top:0;left:0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);}
-}</script>
+  var cmd = btn.closest ? btn.closest('.gc') : null;
+  if(!cmd){ var p = btn; while(p && !p.classList.contains('gc')) p = p.parentNode; cmd = p; }
+  if(!cmd) return;
+  var el = cmd.querySelector('.gc-cmd');
+  if(!el) return;
+  var txt = el.textContent.trim();
+  function done(){ btn.textContent = '✅ Copiado!'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent = '📋 Copiar'; btn.classList.remove('ok'); }, 2000); }
+  if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(done).catch(done); }
+  else { done(); }
+}
+</script>
+</script>
 <style>
 .logout-btn{
   position:fixed;bottom:24px;left:24px;z-index:9999;
