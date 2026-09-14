@@ -69,14 +69,8 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
 .search-inp::placeholder{color:rgba(255,255,255,0.25)}
 .search-count{font-size:11px;color:rgba(255,255,255,0.25);flex-shrink:0;white-space:nowrap;font-weight:600}
 
-/* ── CATEGORY FILTER BAR ── */
-.cat-bar{position:sticky;top:52px;z-index:98;background:#0A0D14;padding:8px 0 10px;margin-bottom:10px}
-.cat-bar-inner{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.cat-bar-inner::-webkit-scrollbar{display:none}
-.cat-chip{flex-shrink:0;padding:5px 13px;border-radius:20px;font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.4);cursor:pointer;transition:all .15s;white-space:nowrap;font-family:inherit}
-.cat-chip:hover{border-color:rgba(59,130,246,0.35);color:rgba(255,255,255,0.75)}
-.cat-chip.active{background:rgba(59,130,246,0.12);border-color:rgba(59,130,246,0.35);color:#93C5FD}
-.cat-chip.all-chip.active{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.2);color:#fff}
+/* ── CATEGORY FILTER BAR — hidden globally (sidebar replaces on desktop, removed on mobile) ── */
+.cat-bar{display:none!important}
 
 /* ── CATEGORY HEADER ── */
 .cat-section{margin-bottom:6px}
@@ -189,6 +183,62 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
 .empty{display:none;text-align:center;padding:60px 0;color:rgba(255,255,255,0.25)}
 .empty.show{display:block}
 .empty-ico{font-size:36px;display:block;margin-bottom:10px}
+
+/* ── PART SEPARATOR (psep) ── */
+.psep{
+  margin:40px 0 32px;
+  padding:24px 0 24px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.psep .pn{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(59,130,246,0.7);margin-bottom:8px;
+  font-family:"JetBrains Mono",monospace;
+}
+.psep h2{
+  font-size:22px;font-weight:800;color:rgba(255,255,255,0.88);
+  letter-spacing:-0.5px;line-height:1.2;margin-bottom:10px;
+}
+.psep h2 br{display:none}/* inline */
+.psep p{
+  font-size:12px;color:rgba(255,255,255,0.35);line-height:1.7;
+  max-width:560px;margin-bottom:12px;
+}
+.psep .tl{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ── SIDEBAR COLLAPSE (desktop) ── */
+#sidebar-collapse-btn{
+  background:none;border:none;
+  color:rgba(255,255,255,0.25);
+  font-size:14px;cursor:pointer;padding:4px 6px;
+  border-radius:6px;transition:all .15s;line-height:1;
+  flex-shrink:0;
+}
+#sidebar-collapse-btn:hover{color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.05)}
+
+/* Collapsed state */
+#sidebar.collapsed{width:0;border-right:none;overflow:hidden;transition:width .25s cubic-bezier(.4,0,.2,1)}
+.page.sidebar-hidden{margin-left:0;transition:margin-left .25s cubic-bezier(.4,0,.2,1)}
+#sidebar{transition:transform .26s cubic-bezier(.4,0,.2,1), width .25s cubic-bezier(.4,0,.2,1)}
+
+/* Reopen button — appears when sidebar is collapsed on desktop */
+#sidebar-reopen{
+  display:none;
+  position:fixed;top:12px;left:12px;z-index:300;
+  width:34px;height:34px;border-radius:9px;
+  background:rgba(10,13,20,0.9);border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.5);font-size:16px;cursor:pointer;
+  align-items:center;justify-content:center;
+  transition:all .15s;backdrop-filter:blur(8px);
+}
+#sidebar-reopen:hover{background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.3);color:#93C5FD}
+#sidebar.collapsed ~ * #sidebar-reopen,
+body.sidebar-collapsed #sidebar-reopen{display:flex}
+@media(max-width:800px){
+  #sidebar-reopen{display:none!important}
+  #sidebar-collapse-btn{display:none}
+}
 
 /* ── RESPONSIVE base ── */
 @media(max-width:600px){
@@ -341,6 +391,9 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
 <!-- SIDEBAR TOGGLE (mobile) -->
 <button id="sidebar-toggle" aria-label="Abrir menu">☰</button>
 
+<!-- SIDEBAR REOPEN (desktop, when collapsed) -->
+<button id="sidebar-reopen" title="Abrir menu" aria-label="Abrir menu">›</button>
+
 <!-- OVERLAY (mobile) -->
 <div id="sidebar-overlay"></div>
 
@@ -351,7 +404,10 @@ body{font-family:"Plus Jakarta Sans",sans-serif;background:#0A0D14;color:#fff;li
       <div id="sidebar-logo">CRIA</div>
       <div id="sidebar-sub">300 Prompts de IA</div>
     </div>
-    <button id="sidebar-close-btn" aria-label="Fechar menu">✕</button>
+    <div style="display:flex;gap:4px;align-items:center">
+      <button id="sidebar-collapse-btn" title="Recolher menu" aria-label="Recolher menu">‹</button>
+      <button id="sidebar-close-btn" aria-label="Fechar menu">✕</button>
+    </div>
   </div>
   <div id="sidebar-nav">
 
@@ -2583,10 +2639,16 @@ function triggerSearch() {
     if(inCat && ok) vis++;
   });
   if(t) {
+    // hide cat-sections with no visible prompts
     document.querySelectorAll('.cat-section').forEach(function(s){
       var hasVisible = [].some.call(s.querySelectorAll('.pc'), function(c){ return !c.classList.contains('hidden'); });
       s.style.display = hasVisible ? '' : 'none';
     });
+    // hide .psep (part dividers) when searching
+    document.querySelectorAll('.psep').forEach(function(p){ p.style.display = 'none'; });
+  } else {
+    // restore .psep when search is cleared
+    document.querySelectorAll('.psep').forEach(function(p){ p.style.display = ''; });
   }
   document.getElementById('cnt').textContent = vis + ' prompts';
   document.getElementById('empty').classList.toggle('show', vis === 0 && !!t);
@@ -2600,8 +2662,13 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   var overlay = document.getElementById('sidebar-overlay');
   var toggleBtn = document.getElementById('sidebar-toggle');
   var closeBtn = document.getElementById('sidebar-close-btn');
+  var collapseBtn = document.getElementById('sidebar-collapse-btn');
+  var reopenBtn = document.getElementById('sidebar-reopen');
+  var page = document.querySelector('.page');
   var isOpen = false;
+  var isCollapsed = false;
 
+  // ── Mobile: open/close drawer ──
   function openSidebar(){
     sidebar.classList.add('open');
     overlay.classList.add('visible');
@@ -2618,6 +2685,27 @@ document.getElementById('q').addEventListener('input', triggerSearch);
   toggleBtn.addEventListener('click', function(){ isOpen ? closeSidebar() : openSidebar(); });
   closeBtn.addEventListener('click', closeSidebar);
   overlay.addEventListener('click', closeSidebar);
+
+  // ── Desktop: collapse/expand sidebar ──
+  function collapseSidebar(){
+    isCollapsed = true;
+    sidebar.classList.add('collapsed');
+    page.classList.add('sidebar-hidden');
+    document.body.classList.add('sidebar-collapsed');
+    if(collapseBtn){ collapseBtn.innerHTML = '›'; collapseBtn.title = 'Expandir menu'; }
+    if(reopenBtn) reopenBtn.style.display = 'flex';
+  }
+  function expandSidebar(){
+    isCollapsed = false;
+    sidebar.classList.remove('collapsed');
+    page.classList.remove('sidebar-hidden');
+    document.body.classList.remove('sidebar-collapsed');
+    if(collapseBtn){ collapseBtn.innerHTML = '‹'; collapseBtn.title = 'Recolher menu'; }
+    if(reopenBtn) reopenBtn.style.display = 'none';
+  }
+
+  if(collapseBtn) collapseBtn.addEventListener('click', function(){ isCollapsed ? expandSidebar() : collapseSidebar(); });
+  if(reopenBtn) reopenBtn.addEventListener('click', expandSidebar);
 
   // Sidebar item click — scroll to section + close on mobile
   document.querySelectorAll('.snav-item').forEach(function(item){
