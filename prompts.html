@@ -73,7 +73,7 @@ html{visibility:hidden}
 
 html{scroll-behavior:smooth;background:var(--bg)!important;color:var(--text-1)!important}
 body{
-  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  font-family:"Space Grotesk",system-ui,sans-serif;
   background:var(--bg);color:var(--text-1);
   line-height:1.6;min-height:100vh;
   -webkit-font-smoothing:antialiased;
@@ -85,14 +85,14 @@ body{
 /* ── HEADER — compacto ── */
 .header{padding:32px 0 24px;text-align:center}
 .logo{
-  font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1;
+  font-size:44px;font-weight:800;letter-spacing:-3px;line-height:1;
   font-family:"Space Grotesk",sans-serif;
   background:linear-gradient(135deg,#60a5fa 0%,#a78bfa 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .logo-sub{
-  font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--text-3);margin-top:8px;
+  font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--text-3);margin-top:10px;
 }
 .logo-stats{
   display:flex;align-items:center;justify-content:center;gap:12px;
@@ -110,7 +110,7 @@ body{
 .tut{
   background:var(--surface-1);
   border:1px solid var(--border-1);
-  border-radius:14px;padding:20px 24px;margin-bottom:28px;
+  border-radius:16px;padding:20px 24px;margin-bottom:28px;
 }
 .tut-head{
   display:flex;align-items:center;justify-content:space-between;
@@ -159,12 +159,13 @@ body{
   display:flex;align-items:center;gap:10px;
   background:var(--surface-1);
   border:1px solid var(--border-1);
-  border-radius:10px;padding:10px 14px;
-  transition:border-color .18s,background .18s;
+  border-radius:14px;padding:12px 16px;
+  transition:border-color .18s,background .18s,box-shadow .18s;
 }
 .search-box:focus-within{
-  border-color:var(--blue-bd);
-  background:rgba(59,130,246,0.04);
+  border-color:rgba(79,143,250,0.5);
+  background:rgba(79,143,250,0.04);
+  box-shadow:0 0 0 3px rgba(79,143,250,0.08);
 }
 .search-icon{font-size:14px;color:var(--text-3);flex-shrink:0}
 .search-inp{
