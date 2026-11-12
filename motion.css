@@ -1,0 +1,78 @@
+/* One motion language: soft entrances, responsive surfaces and quiet exits. */
+body.fluid-ui { --fluid-ease: cubic-bezier(.16,1,.3,1); --fluid-spring: cubic-bezier(.18,1.08,.28,1); }
+.fluid-ui .hero-copy, .fluid-ui .login-card { animation: none; }
+.fluid-ui dialog[open], .fluid-ui dialog.is-closing { animation: none !important; }
+.fluid-ui dialog[open]::backdrop { animation: fluid-backdrop-in .4s var(--fluid-ease) both; }
+.fluid-ui dialog.is-closing::backdrop { animation: fluid-backdrop-out .21s ease-in both; }
+.fluid-ui #collection-content { overflow-anchor: none; }
+.fluid-ui .button, .fluid-ui .icon-button, .fluid-ui .chip, .fluid-ui .rail-arrow, .fluid-ui .personalizer-toggle, .fluid-ui .reset-personalization {
+  transition: transform .5s var(--fluid-spring), scale .23s var(--fluid-ease), background-color .3s, border-color .3s, box-shadow .4s, color .3s, opacity .3s;
+}
+.fluid-ui .button:active:not(:disabled), .fluid-ui .icon-button:active, .fluid-ui .chip:active, .fluid-ui .rail-arrow:active, .fluid-ui .reset-personalization:active { scale: .965; }
+.fluid-ui .personalizer-toggle:active { scale: .992; }
+.fluid-ui .card-open { transition: scale .34s var(--fluid-spring); }
+.fluid-ui .card-open:active { scale: .985; }
+.fluid-ui .nav-item { position: relative; transition: transform .55s var(--fluid-spring), background-color .35s, border-color .35s, color .3s; }
+.fluid-ui .nav-item::before { content: ''; position: absolute; left: 2px; top: calc(50% - 9px); width: 3px; height: 18px; border-radius: 4px; background: linear-gradient(#bbdfff,#c4b3ff); box-shadow: 0 0 12px #b9caff45; opacity: 0; scale: 1 .2; transition: opacity .35s, scale .55s var(--fluid-spring); }
+.fluid-ui .nav-item.active::before { opacity: 1; scale: 1; }
+.fluid-ui .nav-count, .fluid-ui #result-count, .fluid-ui #personalizer-count { font-variant-numeric: tabular-nums; }
+.fluid-ui .nav-item:hover > img { opacity: 1; }
+.fluid-ui .chip { position: relative; isolation: isolate; }
+.fluid-ui .chip.active { box-shadow: var(--glass-inset), 0 4px 16px #b5caff14; }
+.fluid-ui .chip:hover { transform: translateY(-3px); }
+.fluid-ui .rail-arrow:hover { transform: translateX(2px); box-shadow: var(--glass-inset), 0 4px 18px #a4ccff20; }
+.fluid-ui .rail-arrow[data-direction="-1"]:hover { transform: translateX(-2px); }
+.fluid-ui .prompt-card.revealed { transition: transform .72s var(--fluid-spring), border-color .45s, box-shadow .55s; }
+.fluid-ui .prompt-card:focus-within .card-shine { opacity: .65; }
+.fluid-ui .prompt-card:hover .card-shine { opacity: 1; transition: opacity .5s; }
+.fluid-ui .card-shine { transition: opacity .6s; }
+.fluid-ui .card-play { transition: opacity .45s, transform .7s var(--fluid-spring); }
+.fluid-ui .card-bottom > span { transition: transform .55s var(--fluid-spring), color .4s; }
+.fluid-ui .card-image { isolation: isolate; }
+.fluid-ui .card-image::before { content: ''; position: absolute; inset: 0; z-index: 1; opacity: 0; pointer-events: none; background: linear-gradient(110deg,transparent 18%,#b8d8ff0c 45%,#d2c1ff12 52%,transparent 76%); background-size: 220% 100%; transition: opacity .35s; }
+.fluid-ui .card-image.image-pending::before { opacity: 1; animation: fluid-image-sheen 1.7s ease-in-out infinite; }
+.fluid-ui .card-image.image-ready::before { opacity: 0; }
+.fluid-ui .card-image picture img { transition: opacity .5s, transform 1.25s var(--fluid-ease), filter .8s; }
+.fluid-ui .custom-field label { transition: color .3s, translate .4s var(--fluid-ease); }
+.fluid-ui .custom-field:focus-within label { color: #d1e6ff; translate: 0 -1px; }
+.fluid-ui .custom-field.is-edited input, .fluid-ui .custom-field.is-edited select { border-color: #c9d6ff62; background-color: #c4d7ff08; }
+.fluid-ui .custom-field input, .fluid-ui .custom-field select { transition: border-color .4s, background-color .4s, box-shadow .4s; }
+.fluid-ui .personalizer-toggle[aria-expanded="true"] .personalizer-mark { rotate: 45deg; background-color: #d3ddff12; }
+.fluid-ui .personalizer-mark { transition: rotate .65s var(--fluid-spring), background-color .4s, box-shadow .4s; }
+.fluid-ui .personalizer-expand { transition: transform .6s var(--fluid-spring); }
+.fluid-ui .personalizer-panel { padding-bottom: 0; }
+.fluid-ui .personalizer-status { padding-bottom: 16px; }
+.fluid-ui #prompt-text { height: clamp(200px,38dvh,420px); max-height: none; transition: height .51s var(--fluid-ease), border-color .35s; }
+.fluid-ui .is-personalizing #prompt-text { height: clamp(165px,24dvh,280px); max-height: none; }
+.fluid-ui .personalizer-toggle:disabled { cursor: progress; }
+.fluid-ui .prompt-dialog .button.primary.is-copied { border-color: #d1f7ed95; background: linear-gradient(110deg,#b4e4ff2e,#bfead42e); color: #e8fff7; box-shadow: inset 0 1px #ffffff95, 0 5px 23px #b6ead71c; }
+.fluid-ui .dialog-close { transition: background-color .3s, border-color .3s, color .3s, rotate .45s var(--fluid-spring), scale .25s; }
+.fluid-ui .dialog-close:hover { rotate: 90deg; border-color: #eff5ff80; }
+.fluid-ui .hero-grid { animation: fluid-grid-breathe 8s ease-in-out infinite alternate; }
+.fluid-ui .toast { transition: opacity .35s, transform .5s var(--fluid-ease), visibility .35s; }
+.fluid-ui.motion-suspended .prompt-card, .fluid-ui.motion-suspended .hero-art img, .fluid-ui.motion-suspended .hero-grid, .fluid-ui.motion-suspended .login-still, .fluid-ui.motion-suspended .strip-symbol { animation-play-state: paused; }
+@keyframes fluid-backdrop-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fluid-backdrop-out { to { opacity: 0; } }
+@keyframes fluid-image-sheen { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@keyframes fluid-grid-breathe { from { opacity: .07; } to { opacity: .17; } }
+@media (max-width:900px) {
+  .fluid-ui .sidebar { transition: none; }
+  .fluid-ui #menu-overlay { background: #0307108c; }
+}
+@media (max-width:650px) {
+  .fluid-ui #prompt-text { height: clamp(220px,39dvh,380px); }
+  .fluid-ui .is-personalizing #prompt-text { height: clamp(180px,27dvh,260px); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .fluid-ui dialog[open]::backdrop { animation: fluid-backdrop-in .24s ease-out both !important; }
+  .fluid-ui dialog.is-closing::backdrop { animation: fluid-backdrop-out .17s ease-in both !important; }
+  .fluid-ui .button, .fluid-ui .icon-button, .fluid-ui .chip, .fluid-ui .rail-arrow, .fluid-ui .personalizer-toggle, .fluid-ui .reset-personalization, .fluid-ui .nav-item, .fluid-ui .custom-field input, .fluid-ui .custom-field select, .fluid-ui .dialog-close {
+    transition: background-color .25s, border-color .25s, box-shadow .3s, opacity .25s, color .25s, scale .2s !important;
+  }
+  .fluid-ui .button:active:not(:disabled), .fluid-ui .icon-button:active, .fluid-ui .chip:active, .fluid-ui .rail-arrow:active { scale: .99; }
+  .fluid-ui .dialog-close:hover { rotate: 0deg; }
+  .fluid-ui .custom-field:focus-within label { translate: 0; }
+  .fluid-ui .card-image picture img { transition: opacity .26s, transform .65s var(--fluid-ease), filter .5s !important; }
+  .fluid-ui .nav-item::before { scale: 1; transition: opacity .25s !important; }
+  .fluid-ui #prompt-text { transition: height .26s var(--fluid-ease), border-color .25s !important; }
+}
